@@ -5,20 +5,20 @@ EventEmitter = require('events').EventEmitter
 oauth        = require('oauth')
 
 class Twitter extends Adapter
- send: (user, strings...) ->
-   console.log "Sending strings to user: " + user
+ send: (envelope, strings...) ->
+   console.log "Sending strings to user: " + envelope.user.name
    strings.forEach (str) =>
      text = str
      console.log text
      tweetsText = str.split('\n')
      tweetsText.forEach (tweetText) =>
-       @bot.send(user,tweetText)
+       @bot.send(envelope.user.name,tweetText)
 
- reply: (user, strings...) ->
+ reply: (envelope, strings...) ->
    console.log "Replying"
    strings.forEach (text) =>
        console.log text
-       @bot.send(user,text)
+       @bot.send(envelope.user.name,text)
  
  command: (command, strings...) ->
     console.log command
