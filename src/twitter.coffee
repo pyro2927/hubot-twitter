@@ -33,14 +33,15 @@ class Twitter extends Adapter
     tokensecret : process.env.HUBOT_TWITTER_TOKEN_SECRET
    bot = new TwitterStreaming(options)
 
-   bot.tweet self.robot.name, (data, err) ->
-     reg = new RegExp('@'+self.robot.name,'i')
+   bot.tweet self.robot.name, (data, err) =>
+     reg = new RegExp('@'+ @robot.name,'i')
      console.log "received #{data.text} from #{data.user.screen_name}"
 
-     message = data.text.replace reg, self.robot.name
+     message = data.text.replace reg, @robot.name
      console.log "hubot command: #{message}"
 
-     self.receive new TextMessage data.user.screen_name, message
+     user = @userForId '1', name: data.user.screen_name, room: 'Twitter'
+     @receive new TextMessage user, message
      if err
        console.log "received error: #{err}"
 
@@ -112,4 +113,4 @@ class TwitterStreaming extends EventEmitter
           try
              callback JSON.parse(json), null
           catch err
-             console.log "error parse"+json
+             console.log err
