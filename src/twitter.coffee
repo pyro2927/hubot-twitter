@@ -40,7 +40,7 @@ class Twitter extends Adapter
      message = data.text.replace reg, @robot.name
      console.log "hubot command: #{message}"
 
-     user = @userForId '1', name: data.user.screen_name, room: 'Twitter'
+     user = @userForId data.user.id_str, name: data.user.screen_name, room: 'Twitter'
      @receive new TextMessage user, message
      if err
        console.log "received error: #{err}"
